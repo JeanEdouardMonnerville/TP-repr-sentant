@@ -58,6 +58,7 @@ public class TestRepresentant {
 		float salaire = r.salaireMensuel(0, POURCENTAGE);
 		
 		// A quel résultat on s'attend ?
+                //On s'attend à ce que salaire=1200f
 		// Le CA du mois doit avoir été initialisé à 0
 		
 		assertEquals(

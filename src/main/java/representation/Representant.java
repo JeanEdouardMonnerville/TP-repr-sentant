@@ -1,4 +1,5 @@
 package representation;
+import java.util.ArrayList;
 
 public class Representant {
 
@@ -7,11 +8,21 @@ public class Representant {
 	private final String prenom;
 	private String adresse;
 	private float salaireFixe;
+        private ZoneGeographique Secteur;
+        private ArrayList<Float> CAMensuel;
 
-	public Representant(int numero, String nom, String prenom, ZoneGeographique secteur) {
+	public Representant(int numero, String nom, String prenom, ZoneGeographique Secteur) {
 		this.numero = numero;
 		this.nom = nom;
 		this.prenom = prenom;
+                this.Secteur= Secteur;
+                CAMensuel= new ArrayList<Float>();
+                //on initialise le CA mensuel des 12 mois
+                for(int i=0 ;i<12 ;i++){
+                    CAMensuel.add(0f);
+                }
+               
+                
 	}
 
 	public int getNumero() {
@@ -43,13 +54,15 @@ public class Representant {
 	}
 
 	public ZoneGeographique getSecteur() {
-		// TODO: Implémenter cette méthode
-		throw new UnsupportedOperationException("Pas encore implémenté");
+		// On retourne le secteur initialisé dans le constructeur
+             
+		return Secteur;
 	}
 
 	public void setSecteur(ZoneGeographique secteur) {
-		// TODO: Implémenter cette méthode
-		throw new UnsupportedOperationException("Pas encore implémenté");
+		// On remplace le secteur crée par un autre
+                Secteur=secteur;
+		
 	}
 
 	/**
@@ -65,8 +78,9 @@ public class Representant {
 		if (montant < 0) {
 			throw new IllegalArgumentException("Le montant doit être positif ou null");
 		}
-		// TODO: Implémenter cette méthode
-		throw new UnsupportedOperationException("Pas encore implémenté");
+                CAMensuel.add(mois, montant);
+                
+		
 	}
 
 	/**
@@ -76,8 +90,19 @@ public class Representant {
 	 * @return le salaire pour ce mois, tenant compte du salaire fixe, de l'indemnité repas, et du pourcentage sur CA
 	 */
 	public float salaireMensuel(int mois, float pourcentage) {
-		// TODO: Implémenter cette méthode
-		throw new UnsupportedOperationException("Pas encore implémenté");
+		// vérifier les paramètres
+		if (mois < 0 || mois > 11) {
+			throw new IllegalArgumentException("Le mois doit être compris entre 0 et 11");
+		}
+                if (pourcentage< 0f || pourcentage > 1f){
+                    throw new IllegalArgumentException("Un pourcentage est compris entre 0 et 1");
+                }
+                //On va chercher le Chiffre d'affaire du mois désiré
+                float CA;
+                CA=CAMensuel.get(mois);
+                //Le salaire est la résultante du pourcentage sur le CA+l'indémnité+le salaire fixe
+                return pourcentage*CA+Secteur.getIndemniteRepas()+salaireFixe;
+                    
 	}
 
 	@Override
